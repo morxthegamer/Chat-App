@@ -1,5 +1,4 @@
 from app import App
-from data import Data
 
 def main():
   app = App()
