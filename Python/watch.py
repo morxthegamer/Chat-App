@@ -3,10 +3,11 @@ import time
 CHAT_FILE = "../chat.yaml"
 
 def main():
-  with open(CHAT_FILE, "r") as f:
-    while (True):
-      time.sleep(1)
-      print(f.read())
+  while (True):
+    with open(CHAT_FILE, "r") as f:
+      FILE = f.read()
+      time.sleep(2)
+      print(FILE)
 
 if __name__ == "__main__":
   main()

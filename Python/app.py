@@ -14,13 +14,13 @@ class App:
     self.people.extend(persons)
 
   def firstLoop(self):
-    persons = self.data.getData()
+    persons = self.json_data.getData()
     self.people.extend(persons)
     os.system("clear")
     while (True):
       person_input = input("Choose a person: ")
       
-      if (person_input == "quit"): break
+      if (person_input == "."): break
 
       if (person_input not in self.people):
         print("Invalid option.")
@@ -28,9 +28,9 @@ class App:
 
       msg = input("Type a message:\n> ")
       message = f"{self.people[self.people.index(person_input)]}: {msg}"
+      print(message)
       self.messages.append(message)
-
-    print(self.messages)
+      self.chat_data.setChatData(self.messages)
 
   def secondLoop(self):
     self.getInfo()
@@ -38,7 +38,7 @@ class App:
     while (True):
       person_input = input("Choose a person: ")
       
-      if (person_input == "quit"): break
+      if (person_input == "."): break
 
       if (person_input not in self.people):
         print("Invalid option.")
@@ -46,9 +46,13 @@ class App:
 
       msg = input("Type a message:\n> ")
       message = f"{self.people[self.people.index(person_input)]}: {msg}"
+      print(message)
       self.messages.append(message)
 
-    print(self.messages)
+      for i in len(self.messages):
+        self.messages[i].spilt(": ")
+        
+    self.chat_data.setChatData(self.messages)
 
   def appLoop(self):
     while (True):
@@ -68,4 +72,3 @@ class App:
     
   def start(self):
     self.appLoop()
-    self.saveInfo()

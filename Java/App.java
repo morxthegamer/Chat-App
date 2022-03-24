@@ -47,10 +47,4 @@ public class App {
     myData = new Data(infoFile);
     myData.setData(people.toString());
   }
-
-  public static void main(String args[]) {
-    App app = new App();
-    app.start();
-    app.saveInfo();
-  }
 }

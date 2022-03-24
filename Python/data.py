@@ -1,4 +1,4 @@
-import json
+import json, yaml
 
 class Data:
   def __init__(self, path):
@@ -11,5 +11,10 @@ class Data:
 
   def setData(self, data):
     with open(self.path, "w") as g:
-      print("Setting Data:", data)
+      print(f"Setting Data: {data}")
       g.write(json.dumps(data))
+
+  def setChatData(self, data):
+    with open(self.path, "w") as j:
+      print(f"Setting Data: {data}")
+      j.write(yaml.dump(data))
