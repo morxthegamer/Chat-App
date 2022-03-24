@@ -1,0 +1,16 @@
+{
+  "name": "Script",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "npx tsc app.ts main.ts data.ts watch.ts --moduleResolution node --target es6 --outDir js && cd js && node main"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^4.6.2"
+  }
+}
