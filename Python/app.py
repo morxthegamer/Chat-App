@@ -6,7 +6,8 @@ class App:
     self.people = []
     self.json_data = Data("../DataBase/python.json")
     self.chat_data = Data("../chat.yaml")
-    self.messages = []
+    self.messages = {}
+    self.count = 0
 
   def getInfo(self):
     people = input("Enter the amount of people you want to communicate with:\n> ")
@@ -18,6 +19,7 @@ class App:
     self.people.extend(persons)
     os.system("clear")
     while (True):
+      self.count += 1
       person_input = input("Choose a person: ")
       
       if (person_input == "."): break
@@ -26,16 +28,18 @@ class App:
         print("Invalid option.")
         continue;
 
-      msg = input("Type a message:\n> ")
-      message = f"{self.people[self.people.index(person_input)]}: {msg}"
-      print(message)
-      self.messages.append(message)
-      self.chat_data.setChatData(self.messages)
+      message = input("Type a message:\n> ")
+      person = self.people[self.people.index(person_input)]
+      print(f"{person}: {message}")
+      self.messages[f"{self.count}. {person}"] = message
+
+    self.chat_data.setChatData(self.messages)
 
   def secondLoop(self):
     self.getInfo()
     os.system("clear")
     while (True):
+      self.count += 1
       person_input = input("Choose a person: ")
       
       if (person_input == "."): break
@@ -44,14 +48,11 @@ class App:
         print("Invalid option.")
         continue;
 
-      msg = input("Type a message:\n> ")
-      message = f"{self.people[self.people.index(person_input)]}: {msg}"
-      print(message)
-      self.messages.append(message)
+      message = input("Type a message:\n> ")
+      person = self.people[self.people.index(person_input)]
+      print(f"{person}: {message}")
+      self.messages[f"{self.count}. {person}"] = message
 
-      for i in len(self.messages):
-        self.messages[i].spilt(": ")
-        
     self.chat_data.setChatData(self.messages)
 
   def appLoop(self):

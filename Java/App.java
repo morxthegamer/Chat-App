@@ -28,7 +28,7 @@ public class App {
     scan = new Scanner(System.in);
     while (true) {
       System.out.println("Choose a person:");
-      String personInput = scan.next();
+      String personInput = scan.nextLine();
 
       if (personInput.equals("quit")) break;
 
