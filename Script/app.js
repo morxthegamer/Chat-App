@@ -38,6 +38,9 @@ class App {
       let message = prompt("Type a message:\n> ")
       let person = this.people[this.people.indexOf(personInput)]
       console.log(`${person}: ${message}`)
+
+      eval(`this.messages.${person} = message`)
+      this.chatData.setData(this.people)
     }
   }
 
@@ -58,6 +61,9 @@ class App {
       let message = prompt("Type a message:\n> ")
       let person = this.people[this.people.indexOf(personInput)]
       console.log(`${person}: ${message}`)
+      
+      eval(`this.messages.${person} = message`)
+      this.jsonData.setData(this.people)
     }
   }
 

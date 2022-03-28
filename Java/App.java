@@ -45,6 +45,7 @@ public class App {
       System.out.println(person + ": " + message);
 
       messages.put(msgCount + person, message);
+      chatData.setData(messages.toString());
     }
   }
 
@@ -52,6 +53,8 @@ public class App {
     getInfo();
     scan = new Scanner(System.in);
     while (true) {
+      msgCount++;
+      
       System.out.print("Choose a person: ");
       String personInput = scan.nextLine();
 
@@ -66,6 +69,9 @@ public class App {
       String message = scan.nextLine();
       String person = people.get(people.indexOf(personInput));
       System.out.println(person + ": " + message);
+      
+      messages.put(msgCount + person, message);
+      chatData.setData(messages.toString());
     }
   }
 
