@@ -4,7 +4,7 @@ import os
 class App:
   def __init__(self):
     self.people = []
-    self.json_data = Data("../DataBase/python.json")
+    self.json_data = Data("../DataBase/js.json")
     self.chat_data = Data("../chat.yaml")
     self.messages = {}
     self.count = 0

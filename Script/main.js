@@ -6,4 +6,4 @@ function main() {
   app.saveInfo();
 }
 
-main();
+main()
