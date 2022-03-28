@@ -16,10 +16,12 @@ public class Watch {
   }
 
   public static void main(String args[]) {
-    try {
-      new Watch().watchFile();
-    } catch (Exception e) {
-      e.printStackTrace();
+    while (true) {
+      try {
+        new Watch().watchFile();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
   }
 }

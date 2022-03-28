@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "npx tsc app.ts main.ts data.ts watch.ts --moduleResolution node --target es6 --outDir js && cd js && node main"
+    "start": "npx tsc app.ts main.ts data.ts watch.ts --moduleResolution node --target es6 --outDir js && cd js && node main",
+    "watch": "npx tsc watch.ts --outDir js --target es6 && cd js && node watch"
   },
   "keywords": [],
   "author": "",

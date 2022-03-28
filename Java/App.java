@@ -27,10 +27,10 @@ public class App {
   public void appLoop() {
     scan = new Scanner(System.in);
     while (true) {
-      System.out.println("Choose a person:");
+      System.out.println("Choose a person: ");
       String personInput = scan.nextLine();
 
-      if (personInput.equals("quit")) break;
+      if (personInput.equals(".")) break;
 
       if (!people.contains(personInput)) {
         System.out.println("Invalid Option.");
@@ -38,7 +38,7 @@ public class App {
       }
 
       System.out.println("Type a message:\n>");
-      String message = scan.next();
+      String message = scan.nextLine();
       System.out.println(people.get(people.indexOf(personInput)) + ": " + message);
     }
   }
