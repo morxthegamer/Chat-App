@@ -4,11 +4,11 @@ export default class Data {
     this.data = data
   }
 
-  public getData() {
+  public getData(): string {
     
   }
 
-  public setData() {
+  public setData(): void {
     
   }
 }
