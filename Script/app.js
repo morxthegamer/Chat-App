@@ -4,7 +4,7 @@ const { Data } = require("./data.js")
 class App {
   constructor() {
     this.people = []
-    this.jsonData = new Data("../DataBase/python.json");
+    this.jsonData = new Data("../DataBase/js.json");
     this.chatData = new Data("../chat.yaml");
     this.messages = {}
     this.count = 0;
