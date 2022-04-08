@@ -16,9 +16,10 @@ public class Watch {
   }
 
   public static void main(String args[]) {
+    Watch watcher = new Watch();
     while (true) {
       try {
-        new Watch().watchFile();
+        watcher.watchFile();
       } catch (Exception e) {
         e.printStackTrace();
       }

@@ -14,14 +14,10 @@ public class Data {
   }
 
   public String[] getData() {
-    try {
-      scan = new Scanner(file);
-      while (scan.hasNextLine()) {
-        count++;
-        lines[count] = scan.nextLine();
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
+    scan = new Scanner(file);
+    while (scan.hasNextLine()) {
+      count++;
+      System.out.println(scan.nextLine());
     }
     return lines;
   }

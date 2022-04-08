@@ -23,10 +23,12 @@ public class App {
   public void firstLoop() {
     scan = new Scanner(System.in);
     String[] data = jsonData.getData();
+    
     for (String d : data) {
       count++;
       people.add(count, d);
     }
+    
     while (true) {
       msgCount++;
 
