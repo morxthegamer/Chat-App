@@ -1,4 +1,4 @@
-## Chat App wit Python.
+## Chat App with Python.
 
 What is is this app you might ask? This is a chat app in which you can chat with you friends in the same terminal.
 
