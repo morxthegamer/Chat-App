@@ -1,10 +1,8 @@
-import threading, socket
-
-HOST = '127.0.0.1'
-PORT = 9000
+import threading, socket, time
 
 class Server:
   def __init__(self, host, port):
+    self.host, self.port = host, port
     self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     self.server.bind((host, port))
     self.server.listen()
@@ -19,8 +17,18 @@ class Server:
   def handle_client(self, client):
     while (True):
       try:
-        message = client.recv(1024).decode("utf-8") + "\n"
+        message = client.recv(1024).decode("utf-8")
+
+        if (message == '!leave'):
+          client.send('Exiting. Thank you for chatting!'.encode('utf-8'))
+          self.broadcast(f'{self.nicknames[self.clients.index(client)]} has left the chat.')
+          index = self.clients.index(client)
+          client.close()
+          self.clients.remove(client)
+          self.nicknames.remove(index)
+        
         self.broadcast(f"{self.nicknames[self.clients.index(client)]}: {message}".encode("utf-8"))
+          
       except Exception as e:
         index = self.clients.index(client)
         client.close()
@@ -41,15 +49,14 @@ class Server:
   
       print(f"Client's nickname is: {nickname}.")
       self.broadcast(f"{nickname} has joined the chat!\n".encode("utf-8"))
-      client.send("Connected to server!".encode("utf-8"))
-  
-      thread = threading.Thread(target=self.handle_client, args=(client,))
-      thread.start()
+      client.send("Connected to server!\n".encode("utf-8"))
+
+      self.receive_thread = threading.Thread(target=self.handle_client, args=(client,))
+      self.receive_thread.start()
   
   def start(self):
-    print(f"Server is listening! On {HOST}...")
+    print(f"Server is listening! On {self.host}...")
     self.receive()
 
-if __name__ == "__main__":
-  server = Server(HOST, PORT)
-  server.start()
+server = Server('127.0.0.1', 9000)
+server.start()
