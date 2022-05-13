@@ -2,11 +2,16 @@
 
 What is is this app you might ask? This is a chat app in which you can chat with you friends in the same terminal.
 
-## App Structure:
-
 ### __This is a _TERMINAL_ app.__
 
+## App Structure:
+
+__Server__ - Connects everyone with each other to chat.
+__Client__ - A person that will connect to the server to chat.
+
 ### App Features:
+
+Profiles | Badges | C
 
 | Profiles | DataBase |
 | -------- | -------- |

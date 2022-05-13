@@ -17,4 +17,4 @@ class Data:
     def setChatData(self, data):
         with open(self.path, "w") as j:
             print(f"Setting Data: {data}")
-            j.write(yaml.dump(data))
+            j.write(json.dumps(data))
