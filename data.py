@@ -1,4 +1,4 @@
-import json, yaml
+import json
 
 class Data:
     def __init__(self, path):
