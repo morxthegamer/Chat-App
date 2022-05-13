@@ -16,12 +16,6 @@ class Server:
     def broadcast(self, message):
         for client in self.clients:
             client.send(message)
-
-    def stop(self):
-        while (True):
-            stop = input(" ")
-            if (stop):
-                exit(0)
     
     def handle_client(self, client):
         while (True):
@@ -51,9 +45,7 @@ class Server:
             client.send("Connected to server!".encode("utf-8"))
         
             thread1 = threading.Thread(target=self.handle_client, args=(client,))
-            thread2 = threading.Thread(target=self.stop)
             thread1.start()
-            thread2.start()
     
     def start(self):
         print(f"Server is listening! On {HOST}...")
