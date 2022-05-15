@@ -22,35 +22,26 @@ class Main:
             self.window,
             text="Sign Up",
             font=("Courier", 14, "bold"),
-            bg='black',
-            fg='white',
+            bg='white',
+            fg='black',
             command=self.app.sign_up
-        )
-
-        self.login_button = Button(
-            self.window,
-            text="Log In",
-            font=("Courier", 14, "bold"),
-            bg='black',
-            fg='white',
-            command=self.app.login
         )
 
         self.status_button = Button(
             self.window,
             text="Status",
             font=("Courier", 14, "bold"),
-            bg='black',
-            fg='white',
+            bg='yellow',
+            fg='black',
             command=self.app.status
         )
 
         self.delete_button = Button(
             self.window,
-            text="Delete Account",
+            text="Del Acc",
             font=("Courier", 14, "bold"),
-            bg='black',
-            fg='white',
+            bg='green',
+            fg='black',
             command=self.app.delete_account
         )
 
@@ -58,18 +49,27 @@ class Main:
             self.window,
             text="Configure",
             font=("Courier", 14, "bold"),
-            bg='black',
+            bg='blue',
             fg='white',
             command=self.app.change
         )
 
+        self.start_button = Button(
+            self.window,
+            text="Chat",
+            font=("Courier", 14, "bold"),
+            bg='purple',
+            fg='white',
+            command=self.app.start
+        )
+
     def start(self):
         self.chat_label.place(x=90, y=60)
-        self.sign_up_button.place(x=150, y=150)
-        self.login_button.place(x=155, y=190)
-        self.status_button.place(x=155, y=230)
-        self.change_button.place(x=140, y=270)
-        self.delete_button.place(x=115, y=310)
+        self.sign_up_button.place(x=150, y=120)
+        self.status_button.place(x=113, y=200)
+        self.change_button.place(x=113, y=239)
+        self.delete_button.place(x=196, y=200)
+        self.start_button.place(x=229, y=239)
 
         self.window.mainloop()
 

@@ -17,8 +17,8 @@ class App:
             Password: {i['Password']}
             Age: {i['Age']}
             Phone: {i['Contact']}
-            Current Badge: {i['Username']}
-            Current Theme: {i['Username']}
+            Current Badge: {i['Badge']}
+            Current Theme: {i['Theme']}
             Frontline Text: {i['Text']}
         """)
 
