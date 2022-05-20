@@ -41,7 +41,7 @@ class Server:
             badge = client.recv(1024).decode('utf-8')
         
             self.clients.append(client)
-            self.nicknames.append(badge + nickname)
+            self.nicknames.append(f'{badge} {nickname}')
         
             print(f"Client's nickname is: {nickname}.")
             self.broadcast(f"{nickname} has joined the chat!\n".encode("utf-8"))

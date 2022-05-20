@@ -72,7 +72,6 @@ class Client:
     def write(self):
         try:
           message = self.message_bar.get('1.0', 'end')
-          cprint(f'\nYou said: {message}', self.theme)
           self.client.send(message.encode('utf-8'))
         except Exception as e:
           print('WRITE', e)
