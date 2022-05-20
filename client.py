@@ -1,6 +1,6 @@
 import socket, threading, time
 from data import Data
-from termcolor import colored
+from termcolor import cprint
 
 class Client:
     def __init__(self, host, port, nickname, theme, badge, text):
@@ -18,23 +18,25 @@ class Client:
 
                 if message == "NICKNAME REQUEST":
                     self.client.send(self.nickname.encode('utf-8'))
-                else: print(colored(message, self.theme))
+                elif message == 'BADGE REQUEST':
+                    self.client.send(self.badge.encode('utf-8'))
+                else: cprint(message, self.theme)
         
             except Exception as e:
-                print(e)
-                break
+                print('RECEIVE', e)
+                exit(1)
     
     def write(self):
         while (True):
             try:
                 time.sleep(1)
-                message = input(colored(f'{self.text}\n >', self.theme))
+                message = input(f'{self.text}\n >')
                 self.client.send(message.encode("utf-8"))
             except Exception as e:
-                print(e)
-                break
+                print('WRITE', e)
+                exit(1)
 
     def start(self):
         self.receive_thread.start()
         self.write_thread.start()
-        raise Exception("Stopped.")
+        exit(1)

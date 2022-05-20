@@ -36,9 +36,12 @@ class Server:
         
             client.send("NICKNAME REQUEST".encode("utf-8"))
             nickname = client.recv(1024).decode("utf-8")
+
+            client.send('BADGE REQUEST'.encode('utf-8'))
+            badge = client.recv(1024).decode('utf-8')
         
             self.clients.append(client)
-            self.nicknames.append(nickname)
+            self.nicknames.append(badge + nickname)
         
             print(f"Client's nickname is: {nickname}.")
             self.broadcast(f"{nickname} has joined the chat!\n".encode("utf-8"))
