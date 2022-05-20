@@ -23,12 +23,12 @@ class App:
         """)
 
     def login(self):
-        os.system("cls")
+        os.system("clear")
         print('Please Login.\n')
         username = input("Please enter your username: ")
         password = input("Please enter you password: ")
 
-        os.system('cls')
+        os.system('clear')
         print('Logging in...\n')
         time.sleep(2)
 
@@ -48,12 +48,12 @@ class App:
         return i
 
     def sign_up(self):
-        os.system('cls')
+        os.system('clear')
         username = input("Please enter your username: ")
         email = input("Please enter your email: ")
         password = input("Please enter you password: ")
 
-        os.system('cls')
+        os.system('clear')
         age = input('Please enter your age: ')
         phone_number = input('Please enter your phone number: ')
 
@@ -75,7 +75,7 @@ class App:
         print(f"Sign up was successful! Welcome {username}.")
 
     def delete_account(self):
-        os.system("cls")
+        os.system("clear")
         i = self.login()
 
         confirmation = input('Are you sure you want to delete your account? (y/n): ')
@@ -88,7 +88,7 @@ class App:
     def change(self):
         i = self.login()
         item = input('What do you want to change?: ')
-        if (item == 'Username' or item == 'Email'):
+        if (item == 'Username' or item == 'Email' or item == 'Badge' or item == 'Theme' or item == 'Text'):
             print(f'You cannot change your {item}.')
             exit(1)
 
