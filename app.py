@@ -23,12 +23,12 @@ class App:
         """)
 
     def login(self):
-        os.system("clear")
+        os.system("cls")
         print('Please Login.\n')
         username = input("Please enter your username: ")
         password = input("Please enter you password: ")
 
-        os.system('clear')
+        os.system('cls')
         print('Logging in...\n')
         time.sleep(2)
 
@@ -48,12 +48,12 @@ class App:
         return i
 
     def sign_up(self):
-        os.system('clear')
+        os.system('cls')
         username = input("Please enter your username: ")
         email = input("Please enter your email: ")
         password = input("Please enter you password: ")
 
-        os.system('clear')
+        os.system('cls')
         age = input('Please enter your age: ')
         phone_number = input('Please enter your phone number: ')
 
@@ -75,7 +75,7 @@ class App:
         print(f"Sign up was successful! Welcome {username}.")
 
     def delete_account(self):
-        os.system("clear")
+        os.system("cls")
         i = self.login()
 
         confirmation = input('Are you sure you want to delete your account? (y/n): ')
