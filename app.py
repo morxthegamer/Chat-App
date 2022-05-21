@@ -17,9 +17,11 @@ class App:
             Password: {i['Password']}
             Age: {i['Age']}
             Phone: {i['Contact']}
-            Current Badge: {i['Badge']}
-            Current Theme: {i['Theme']}
-            Frontline Text: {i['Text']}
+
+            Current Badge: {i['Extras']['Badge']}
+            Current Theme: {i['Extras']['Theme']}
+            Frontline Text: {i['Extras']['Text']}
+            Boost Subscription: {i['Extras']['Boost Subscription']}
         """)
 
     def login(self):
@@ -53,6 +55,19 @@ class App:
         email = input("Please enter your email: ")
         password = input("Please enter you password: ")
 
+        for file in os.listdir('DataBase'):
+            filename = file[5:-6]
+
+            if username == filename:
+                print('This username is already taken. Please try again.')
+                exit(1)
+
+            mail = self.data.getDataJson(file)['Email']
+
+            if (email == mail):
+                print('This email is already taken. Please try again.')
+                exit(1)
+
         os.system('cls')
         age = input('Please enter your age: ')
         phone_number = input('Please enter your phone number: ')
@@ -63,9 +78,12 @@ class App:
             'Password': password,
             'Age': age,
             'Contact': phone_number,
-            'Theme': 'white',
-            'Badge': '💬',
-            'Text': 'Type A Message: '
+            'Extras': {
+                'Theme': 'white',
+                'Badge': '💬',
+                'Text': 'Type A Message: ',
+                'Boost Subscription': False
+            }
         }
 
         print('Signing you up...')
