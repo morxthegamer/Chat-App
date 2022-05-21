@@ -16,6 +16,14 @@ class Client:
         self.receive_thread = threading.Thread(target=self.receive)
         self.write_thread = threading.Thread(target=self.write_text)
 
+    def calc_space(self, text_length):
+        space = 174
+
+        for i in range(text_length):
+            space -= 5
+
+        return space
+
     def write_text(self):
         self.message_wind = Tk()
         self.message_wind.geometry('400x400')
@@ -51,7 +59,7 @@ class Client:
 
         self.message_bar.insert('1.0', self.text)
 
-        self.message_label.place(x=180, y=60)
+        self.message_label.place(x=self.calc_space(len(self.nickname)), y=40)
         self.message_bar.place(x=1, y=100)
         self.message_button.place(x=160, y=170)
         self.message_wind.mainloop()
