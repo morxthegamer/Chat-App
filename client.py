@@ -24,8 +24,8 @@ class Client:
 
         self.message_label = Label(
             self.message_wind,
-            text=self.text,
-            font=("Courier", 15, 'bold'),
+            text=self.nickname,
+            font=("Courier", 20, 'bold'),
             bg='black',
             fg=self.theme
         )
@@ -49,7 +49,9 @@ class Client:
             command=self.write
         )
 
-        self.message_label.place(x=115, y=60)
+        self.message_bar.insert('1.0', self.text)
+
+        self.message_label.place(x=180, y=60)
         self.message_bar.place(x=1, y=100)
         self.message_button.place(x=160, y=170)
         self.message_wind.mainloop()
@@ -71,11 +73,11 @@ class Client:
   
     def write(self):
         try:
-          message = self.message_bar.get('1.0', 'end')
-          self.client.send(message.encode('utf-8'))
+            message = self.message_bar.get('1.0', 'end')
+            self.client.send(message.encode('utf-8'))
         except Exception as e:
-          print('WRITE', e)
-          exit(1)
+            print('WRITE', e)
+            exit(1)
 
     def start(self):
         self.receive_thread.start()

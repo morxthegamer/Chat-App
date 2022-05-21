@@ -60,8 +60,12 @@ class Main:
             font=("Courier", 14, "bold"),
             bg='purple',
             fg='white',
-            command=self.app.start
+            command=self.start_to_chat
         )
+
+    def start_to_chat(self):
+        self.window.destroy()
+        self.app.start()
 
     def start(self):
         self.chat_label.place(x=90, y=60)

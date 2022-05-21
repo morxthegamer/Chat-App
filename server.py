@@ -20,13 +20,13 @@ class Server:
     def handle_client(self, client):
         while (True):
             try:
-                message = client.recv(1024).decode("utf-8") + "\n"
+                message = client.recv(1024).decode("utf-8")
                 self.broadcast(f"{self.nicknames[self.clients.index(client)]}: {message}".encode("utf-8"))
             except Exception as e:
                 index = self.clients.index(client)
                 client.close()
                 self.clients.remove(client)
-                self.nicknames.remove(index)
+                self.nicknames.remove(self.nicknames[index])
                 break
         
     def receive(self):
@@ -45,10 +45,10 @@ class Server:
         
             print(f"Client's nickname is: {nickname}.")
             self.broadcast(f"{nickname} has joined the chat!\n".encode("utf-8"))
-            client.send("Connected to server!".encode("utf-8"))
+            client.send("Connected to server!\n".encode("utf-8"))
         
-            thread1 = threading.Thread(target=self.handle_client, args=(client,))
-            thread1.start()
+            thread = threading.Thread(target=self.handle_client, args=(client,))
+            thread.start()
     
     def start(self):
         print(f"Server is listening! On {HOST}...")
