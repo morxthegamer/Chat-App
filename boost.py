@@ -1,5 +1,6 @@
 from data import Data
 import datetime
+from customtkinter import *
 
 class Boost:
     def __init__(self, username, subscription):

@@ -8,12 +8,12 @@ class Main:
         self.window = Tk()
         self.window.geometry('400x400')
         self.window.config(bg='black')
-        self.window.title('Chat App')
+        self.window.title('Cord Chat App')
         
         self.chat_label = Label(
             self.window,
-            text="Welcome to Chat App!",
-            font=("Courier", 14, 'bold'),
+            text="Cord Chat",
+            font=("Courier", 20, 'bold'),
             bg='black',
             fg='white'
         )
@@ -38,27 +38,36 @@ class Main:
 
         self.delete_button = Button(
             self.window,
-            text="Del Acc",
+            text="Delete Account",
             font=("Courier", 14, "bold"),
             bg='green',
-            fg='black',
+            fg='white',
             command=self.app.delete_account
         )
 
         self.change_button = Button(
             self.window,
-            text="Configure",
+            text="Settings",
             font=("Courier", 14, "bold"),
-            bg='blue',
+            bg='gray',
+            fg='black',
+            command=self.app.change
+        )
+
+        self.boost_button = Button(
+            self.window,
+            text="Boost Subscription",
+            font=("Courier", 14, "bold"),
+            bg='purple',
             fg='white',
             command=self.app.change
         )
 
         self.start_button = Button(
             self.window,
-            text="Chat",
+            text="Join To Chat",
             font=("Courier", 14, "bold"),
-            bg='purple',
+            bg='blue',
             fg='white',
             command=self.start_to_chat
         )
@@ -68,12 +77,13 @@ class Main:
         self.app.start()
 
     def start(self):
-        self.chat_label.place(x=90, y=60)
-        self.sign_up_button.place(x=150, y=120)
-        self.status_button.place(x=113, y=200)
-        self.change_button.place(x=113, y=239)
-        self.delete_button.place(x=196, y=200)
-        self.start_button.place(x=229, y=239)
+        self.chat_label.place(x=125, y=60)
+        self.sign_up_button.place(x=154, y=120)
+        self.status_button.place(x=74, y=200)
+        self.change_button.place(x=74, y=239)
+        self.delete_button.place(x=157, y=200)
+        self.boost_button.place(x=95, y=278)
+        self.start_button.place(x=179, y=239)
 
         self.window.mainloop()
 

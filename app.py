@@ -1,6 +1,7 @@
 from client import Client
 from data import Data
 import os, time
+from tkinter import *
 
 class App:
     def __init__(self):
@@ -9,45 +10,112 @@ class App:
         self.data = Data('DataBase')
 
     def status(self):
+        self.status_wind = Tk()
+        self.status_wind.geometry('400x400')
+
+        self.status_lbl = Label(
+            self.status_wind,
+            text='Status',
+            font=('Times', 20, 'bold')
+        )
+
         i = self.login()
-        print(
-            f"""
-            Username: {i['Username']}
-            Email: {i['Email']}
-            Password: {i['Password']}
-            Age: {i['Age']}
-            Phone: {i['Contact']}
+        self.status_text = Label(
+            self.status_wind,
+            text=f"""
+                Username: {i['Username']}
+                Email: {i['Email']}
+                Password: {i['Password']}
+                Age: {i['Age']}
+                Phone: {i['Contact']}
 
-            Current Badge: {i['Extras']['Badge']}
-            Current Theme: {i['Extras']['Theme']}
-            Frontline Text: {i['Extras']['Text']}
-            Boost Subscription: {i['Extras']['Boost Subscription']}
-        """)
+                Current Badge: {i['Extras']['Badge']}
+                Current Theme: {i['Extras']['Theme']}
+                Frontline Text: {i['Extras']['Text']}
+                Boost Subscription: {i['Extras']['Boost Subscription']}
+                """,
+            font=('Courier', 20, 'bold')
+        )
 
-    def login(self):
-        os.system("cls")
-        print('Please Login.\n')
-        username = input("Please enter your username: ")
-        password = input("Please enter you password: ")
+    def login(self):            
+        self.login_wind = Tk()
+        self.login_wind.geometry('400x400')
+        self.login_wind.config(bg='black')
 
-        os.system('cls')
-        print('Logging in...\n')
-        time.sleep(2)
+        self.login_label = Label(
+            self.login_wind,
+            text='Please Login',
+            font=('Courier', 20,'bold'),
+            bg='black',
+            fg='white'
+        )
 
-        i = self.data.getDataJson(f"user[{username}].json")
+        self.name_label = Label(
+            self.login_wind,
+            text='Username:',
+            font=('Courier', 10, 'bold'),
+            bg='black',
+            fg='white'
+        )
 
-        if (i["Username"] != username):
-            print("Login failed. Wrong Username. Please try again.")
-            exit(1)
+        self.pass_label = Label(
+            self.login_wind,
+            text='Password:',
+            font=('Courier', 10, 'bold'),
+            bg='black',
+            fg='white'
+        )
 
-        if (i["Password"] != password):
-            print("Login failed. Wrong Password. Please try again.")
-            exit(1)
+        self.username = Entry(
+            self.login_wind,
+            textvariable=self.name_label,
+            width=30,
+        )
 
-        if (i["Username"] == username and i["Password"] == password):
-            print("Successfully logged in!")
-            
-        return i
+        self.password = Entry(
+            self.login_wind,
+            textvariable=self.pass_label,
+            width=30,
+        )
+
+        self.confirm_button = Button(
+            self.login_wind,
+            text='Enter',
+            font=('Courier', 12, 'bold'),
+            bg='black',
+            fg='white'
+            command=get_info
+        )
+        
+        self.login_label.place(x=100, y=60)
+        self.name_label.place(x=65, y=140)
+        self.pass_label.place(x=65, y=160)
+        self.username.place(x=145, y=140)
+        self.password.place(x=145, y=160)
+        self.confirm_button.place(x=165, y=200)
+
+        name, pw = self.username.get('1.0', 'end'), self.password.get()
+
+        def get_info(self):
+            print('Logging in...\n')
+            time.sleep(2)
+
+            i = self.data.getDataJson(f"user[{self.username.get('1.0', 'end')}].json")
+
+            if (i["Username"] != name):
+                print("Login failed. Wrong Username. Please try again.")
+                exit(1)
+
+            if (i["Password"] != pw):
+                print("Login failed. Wrong Password. Please try again.")
+                exit(1)
+
+            if (i["Username"] == name and i["Password"] == pw):
+                print("Successfully logged in!")
+                
+            return i
+
+        self.login_wind.mainloop()
 
     def sign_up(self):
         os.system('cls')
@@ -119,7 +187,9 @@ class App:
 
         print('Your changes have been saved!')
 
+    
+
     def start(self):
         i = self.login()
-        self.client = Client(self.host, self.port, i["Username"], i['Theme'], i['Badge'], i['Text'])
+        self.client = Client(self.host, self.port, i["Username"], i['Extras']['Theme'], i['Extras']['Badge'], i['Extras']['Text'])
         self.client.start()
