@@ -32,22 +32,6 @@ class StartUp:
             fg='white',
             command=self.login
         )
-
-    def check(self, name, pw):
-        i = self.data.getDataJson(f"user[{name}].json")
-
-        if (i["Username"] != name):
-            print("Login failed. Wrong Username. Please try again.")
-            exit(1)
-    
-        if (i["Password"] != pw):
-            print("Login failed. Wrong Password. Please try again.")
-            exit(1)
-    
-        if (i["Username"] == name and i["Password"] == pw):
-            print("Successfully logged in!")
-
-        return i
     
     def login(self):
         login_wind = Tk()
@@ -90,13 +74,6 @@ class StartUp:
             textvariable=pass_label,
             width=30,
         )
-
-        def keypress(event):
-            print('Logging In...\n')
-            login_wind.destroy()
-            self.check(username.get(), password.get())
-
-        login_wind.bind('<Enter>', self.keypress)
         
         login_label.place(x=100, y=60)
         name_label.place(x=65, y=140)

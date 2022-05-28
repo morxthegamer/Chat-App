@@ -1,4 +1,4 @@
-from client import Client
+from chat_client import Client
 from data import Data
 import os, time, threading
 from tkinter import *
@@ -53,7 +53,6 @@ class App:
             print(f"Account successfully deleted. With reason:\n\n{reason}.")
 
     def change(self):
-        i = self.login()
         item = input('What do you want to change?: ')
         if (item == 'Username' or item == 'Email' or item == 'Badge' or item == 'Theme' or item == 'Text'):
             print(f'You cannot change your {item}.')

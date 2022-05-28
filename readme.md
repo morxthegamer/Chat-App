@@ -1,10 +1,19 @@
 ## Chat App with Python.
 
-What is is this app you might ask? This is a chat app in which you can chat with you friends in the same terminal.
+What is is this app you might ask? This is a chat app in which you can chat with your friends.
 
-### __This is a _TERMINAL_ app.__
+### __This is a complete Modern Chat App.__
 
 ## App Structure:
+
+In this app, you will be able to create an account, then log into it.
+Once you log in, you will be mainly be able to:
+
+1. View your status.
+2. Change your settings.
+3. View your boost subscription.
+4. Chat with your friends.
+5. Delete Back your account.
 
 __Server__ - Connects everyone with each other to chat.
 __Client__ - A person that will connect to the server to chat.
