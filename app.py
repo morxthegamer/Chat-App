@@ -4,10 +4,11 @@ import os, time, threading
 from tkinter import *
 
 class App:
-    def __init__(self):
+    def __init__(self, user):
         self.host = '127.0.0.1'
         self.port = 9000
         self.data = Data('DataBase')
+        self.user = user
 
     def status(self):
         status_wind = Tk()
