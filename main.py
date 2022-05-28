@@ -18,13 +18,12 @@ class Main:
             fg='white'
         )
 
-        self.sign_up_button = Button(
+        self.slang_line_label = Label(
             self.window,
-            text="Sign Up",
-            font=("Courier", 14, "bold"),
-            bg='white',
-            fg='black',
-            command=self.app.sign_up
+            text="Where Communication happens best!",
+            font=("Courier", 10, "bold"),
+            bg='black',
+            fg='white',
         )
 
         self.status_button = Button(
@@ -77,13 +76,13 @@ class Main:
         self.app.start()
 
     def start(self):
-        self.chat_label.place(x=125, y=60)
-        self.sign_up_button.place(x=154, y=120)
-        self.status_button.place(x=74, y=200)
-        self.change_button.place(x=74, y=239)
-        self.delete_button.place(x=157, y=200)
-        self.boost_button.place(x=95, y=278)
-        self.start_button.place(x=179, y=239)
+        self.chat_label.place(x=135, y=60)
+        self.slang_line_label.place(x=73, y=110)
+        self.status_button.place(x=74, y=180)
+        self.change_button.place(x=74, y=219)
+        self.delete_button.place(x=157, y=180)
+        self.boost_button.place(x=95, y=258)
+        self.start_button.place(x=179, y=219)
 
         self.window.mainloop()
 
