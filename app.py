@@ -1,5 +1,6 @@
 from chat_client import Client
 from data import Data
+from boost import Boost
 import os, time, threading, socket, json
 from tkinter import *
 
@@ -56,28 +57,51 @@ class Status:
         self.status_wind.mainloop()
 
 class DeleteAccount:
-    pass
+    def __init__(self):
+        self.del_acc_wind = Tk()
+        self.del_acc_wind.geometry('400x400')
+        self.del_acc_wind.config(bg='black')
+        self.del_acc_wind.title('Delete Your Account')
 
 class Settings:
     def __init__(self):
-        pass
+        self.settings_wind = Tk()
+        self.settings_wind.geometry('400x400')
+        self.settings_wind.config(bg='black')
+        self.settings_wind.title('Settings')
 
-    def change(self):
-        item = input('What do you want to change?: ')
-        if (item == 'Username' or item == 'Email' or item == 'Badge' or item == 'Theme' or item == 'Text'):
-            print(f'You cannot change your {item}.')
-            exit(1)
+        self.settings_lbl = Label(
+            self.status_wind,
+            text='Settings',
+            font=('Times', 20, 'bold')
+        )
 
-        adjustment = input(f'Ok, Please enter your new {item}: ')
+        self.items = ['Password', 'Age', 'Contact']
+        self.item = StringVar()
+        self.item.set(self.items[0])
 
-        print('Saving...')
-        i[f'{item}'] = adjustment
-        self.data.setDataJson('user[{}].json'.format(i['Username']), i)
-        time.sleep(2)
+        self.options = OptionMenu(
+            self.settings_wind,
+            self.item,
+            *self.items
+        )
+        
+        self.adj_lbl = Label(
 
-        print('Your changes have been saved!')
+        )
+
+        self.adjustment = Entry(
+
+        )
+
+        self.adj_button = Button(
+
+        )
     
-class LoginWindow:
+    def send_info(self):
+        pass
+    
+class Login:
     def __init__(self):
         self.login_wind = Tk()
         self.login_wind.geometry('400x400')
@@ -146,7 +170,7 @@ class LoginWindow:
         data = json.loads(app_client.recv(1024).decode('utf-8'))
         print(data)
         
-class SignUpWindow:
+class SignUp:
     def __init__(self):
         self.sign_up_wind = Tk()
         self.sign_up_wind.geometry('400x400')
@@ -269,3 +293,140 @@ class SignUpWindow:
 
         response = app_client.recv(1024).decode('utf-8')
         print(response)
+
+def create1():
+    start = Start()
+
+def create2():
+    status = Status()
+
+def create3():
+    settings = Settings()
+
+def create4():
+    delete_account = DeleteAccount()
+
+def create5():
+    login = Login()
+
+def create6():
+    sign_up = SignUp()
+
+def create7():
+    boost = Boost()
+
+class Start:
+    def __init__(self):
+        self.window = Tk()
+        self.window.geometry('400x400')
+        self.window.config(bg='black')
+        self.window.title('Cord Chat App')
+        
+        self.chat_label = Label(
+            self.window,
+            text="Cord Chat",
+            font=("Courier", 20, 'bold'),
+            bg='black',
+            fg='white'
+        )
+
+        self.sign_up_button = Button(
+            self.window,
+            text="Sign Up",
+            font=("Courier", 14, "bold"),
+            bg='yellow',
+            fg='black',
+            command=create6
+        )
+
+        self.login_button = Button(
+            self.window,
+            text="Log In",
+            font=("Courier", 14, "bold"),
+            bg='green',
+            fg='white',
+            command=create5
+        )
+
+class Menu:
+    def __init__(self):
+        self.window = Tk()
+        self.window.geometry('400x400')
+        self.window.config(bg='black')
+        self.window.title('Cord Chat App')
+        
+        self.chat_label = Label(
+            self.window,
+            text="Cord Chat",
+            font=("Courier", 20, 'bold'),
+            bg='black',
+            fg='white'
+        )
+
+        self.slang_line_label = Label(
+            self.window,
+            text="Where Communication happens best!",
+            font=("Courier", 10, "bold"),
+            bg='black',
+            fg='white',
+        )
+
+        self.status_button = Button(
+            self.window,
+            text="Status",
+            font=("Courier", 14, "bold"),
+            bg='yellow',
+            fg='black',
+            command=create2
+        )
+
+        self.delete_button = Button(
+            self.window,
+            text="Delete Account",
+            font=("Courier", 14, "bold"),
+            bg='green',
+            fg='white',
+            command=create4
+        )
+
+        self.change_button = Button(
+            self.window,
+            text="Settings",
+            font=("Courier", 14, "bold"),
+            bg='gray',
+            fg='black',
+            command=create3
+        )
+
+        self.boost_button = Button(
+            self.window,
+            text="Boost Subscription",
+            font=("Courier", 14, "bold"),
+            bg='purple',
+            fg='white',
+            command=create7
+        )
+
+        self.start_button = Button(
+            self.window,
+            text="Join To Chat",
+            font=("Courier", 14, "bold"),
+            bg='blue',
+            fg='white',
+            command=create1
+        )
+
+    def start_to_chat(self):
+        self.window.destroy()
+        self.app.start()
+
+    def start(self):
+        self.chat_label.place(x=135, y=60)
+        self.slang_line_label.place(x=73, y=110)
+        self.status_button.place(x=74, y=180)
+        self.change_button.place(x=74, y=219)
+        self.delete_button.place(x=157, y=180)
+        self.boost_button.place(x=95, y=258)
+        self.start_button.place(x=179, y=219)
+
+        self.window.mainloop()
