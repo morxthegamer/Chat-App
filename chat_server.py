@@ -55,5 +55,5 @@ class Server:
         self.receive()
 
 if __name__ == "__main__":
-  server = Server(HOST, PORT)
-  server.start()
+    server = Server(HOST, PORT)
+    server.start()

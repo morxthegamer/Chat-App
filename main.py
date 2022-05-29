@@ -2,7 +2,40 @@ from app import App
 from tkinter import *
 from threading import Thread
 
-class Main:
+class Start:
+    def __init__(self):
+        self.window = Tk()
+        self.window.geometry('400x400')
+        self.window.config(bg='black')
+        self.window.title('Cord Chat App')
+        
+        self.chat_label = Label(
+            self.window,
+            text="Cord Chat",
+            font=("Courier", 20, 'bold'),
+            bg='black',
+            fg='white'
+        )
+
+        self.sign_up_button = Button(
+            self.window,
+            text="Sign Up",
+            font=("Courier", 14, "bold"),
+            bg='yellow',
+            fg='black',
+            command=self.sign_up
+        )
+
+        self.login_button = Button(
+            self.window,
+            text="Log In",
+            font=("Courier", 14, "bold"),
+            bg='green',
+            fg='white',
+            command=
+        )
+
+class Menu:
     def __init__(self):
         self.app = App()
         self.window = Tk()

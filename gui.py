@@ -8,9 +8,6 @@ class TKFrame:
         self.window.config(bg=backg)
         self.window.title(title)
 
-    def start(self):
-        pass
-
 class CTKFrame:
     def __init__(self, app_width, app_height, backg, title, text):
         customtkinter.set_appearance_mode(backg)
@@ -19,9 +16,6 @@ class CTKFrame:
         self.window = customtkinter.CTk()
         self.window.geometry(f'{app_width}x{app_height}')
         self.window.title(title)
-
-    def start(self):
-        pass
 
 class SuccessWindow:
     def __init__(self, app_width, app_height, backg, title, line):
