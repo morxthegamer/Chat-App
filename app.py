@@ -6,427 +6,417 @@ from tkinter import *
 
 HOST, PORT = '127.0.0.1', 8000
 
-app_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-app_client.connect((HOST, PORT))
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect((HOST, PORT))
 
-class Start:
-    def __init__(self):
-        app_client.send('INFO REQUEST')
-        self.host, self.port = '127.0.0.1', 9000
-        self.info = json.loads(app_client.recv(1024).decode('utf-8'))
+def status():
+    client.send('INFO REQUEST'.encode('utf-8'))
+    i = eval(client.recv(1024).decode('utf-8'))
 
-        self.client = Client(self.host, self.port, self.info["Username"], self.info['Extras']['Theme'], self.info['Extras']['Badge'], self.info['Extras']['Text'])
-        self.client.start()
+    status_wind = Tk()
+    status_wind.geometry('400x400')
+    status_wind.config(bg='black')
+    status_wind.title('Status')
 
-class Status:
-    def __init__(self):
-        app_client.send('INFO REQUEST')
-        i = json.loads(app_client.recv(1024).decode('utf-8'))
+    status_lbl = Label(
+        status_wind,
+        text='Status',
+        font=('Times', 20, 'bold'),
+        bg='black',
+        fg='white'
+    )
 
-        self.status_wind = Tk()
-        self.status_wind.geometry('400x400')
-        self.status_wind.config(bg='black')
-        self.status_wind.title('Status')
+    status_text = Label(
+        status_wind,
+        text=f"""
+    Username: {i['Username']}
+    Email: {i['Email']}
+    Password: {i['Password']}
+    Age: {i['Age']}
+    Phone: {i['Contact']}
 
-        self.status_lbl = Label(
-            self.status_wind,
-            text='Status',
-            font=('Times', 20, 'bold')
-        )
+    Current Badge: {i['Extras']['Badge']}
+    Current Theme: {i['Extras']['Theme']}
+    Frontline Text: {i['Extras']['Text']}
+    Boost Subscription: {i['Extras']['Boost Subscription']}
+    """,
+        font=('Courier', 12, 'bold'),
+        bg='black',
+        fg='white'
+    )
 
-        self.status_text = Label(
-            self.status_wind,
-            text=f"""
-                Username: {i['Username']}
-                Email: {i['Email']}
-                Password: {i['Password']}
-                Age: {i['Age']}
-                Phone: {i['Contact']}
+    status_lbl.place(x=169, y=60)
+    status_text.place(x=0, y=100)
 
-                Current Badge: {i['Extras']['Badge']}
-                Current Theme: {i['Extras']['Theme']}
-                Frontline Text: {i['Extras']['Text']}
-                Boost Subscription: {i['Extras']['Boost Subscription']}
-                """,
-            font=('Courier', 20, 'bold')
-        )
+    status_wind.mainloop()
 
-        self.status_lbl.place(x=110, y=160)
-        self.status_text.place(x=110, y=200)
+def delete_account():
+    del_acc_wind = Tk()
+    del_acc_wind.geometry('400x400')
+    del_acc_wind.config(bg='black')
+    del_acc_wind.title('Delete Your Account')
 
-        self.status_wind.mainloop()
+    confirmation = Label(
+        del_acc_wind,
+        text='''
+         Are you sure you want 
+        to delete your account?
+        ''',
+        font=('Courier', 12, 'bold'),
+        bg='black',
+        fg='white'
+    )
 
-class DeleteAccount:
-    def __init__(self):
-        self.del_acc_wind = Tk()
-        self.del_acc_wind.geometry('400x400')
-        self.del_acc_wind.config(bg='black')
-        self.del_acc_wind.title('Delete Your Account')
+    yes_button = Button(
+        del_acc_wind,
+        text='Yes',
+        font=('Courier', 12, 'bold'),
+        bg='green',
+        fg='black'
+    )
 
-class Settings:
-    def __init__(self):
-        self.settings_wind = Tk()
-        self.settings_wind.geometry('400x400')
-        self.settings_wind.config(bg='black')
-        self.settings_wind.title('Settings')
+    no_button = Button(
+        del_acc_wind,
+        text='No',
+        font=('Courier', 12, 'bold'),
+        bg='red',
+        fg='black'
+    )
 
-        self.settings_lbl = Label(
-            self.status_wind,
-            text='Settings',
-            font=('Times', 20, 'bold')
-        )
+    confirmation.place(x=100, y=90)
+    yes_button.place(x=70, y=120)
+    no_button.place(x=100, y=120)
+    del_acc_wind.mainloop()
 
-        self.items = ['Password', 'Age', 'Contact']
-        self.item = StringVar()
-        self.item.set(self.items[0])
+    def send_info():
+        client.send('DELETE ACCOUNT REQUEST')
+        done = client.recv(1024).decode('utf-8')
+        print(done)
+        exit(0)
 
-        self.options = OptionMenu(
-            self.settings_wind,
-            self.item,
-            *self.items
-        )
-        
-        self.adj_lbl = Label(
+def settings():
+    settings_wind = Tk()
+    settings_wind.geometry('400x400')
+    settings_wind.config(bg='black')
+    settings_wind.title('Settings')
 
-        )
+    settings_lbl = Label(
+        settings_wind,
+        text='Settings',
+        font=('Times', 20, 'bold')
+    )
 
-        self.adjustment = Entry(
+    items = ['Password', 'Age', 'Contact']
+    item = StringVar()
+    item.set(items[0])
 
-        )
-
-        self.adj_button = Button(
-
-        )
+    options = OptionMenu(
+        settings_wind,
+        item,
+        *items
+    )
     
-    def send_info(self):
+    adj_lbl = Label(
+        settings_wind,
+        text='What would you like to change?',
+        font=('Courier', 12, 'bold'),
+        bg='black',
+        fg='white'
+    )
+
+    adjustment = Entry(
+        settings_wind,
+        textvariable=adj_lbl,
+        width=30
+    )
+
+    adj_button = Button(
+        settings_wind,
+        text='Change',
+        font=('Courier', 12, 'bold'),
+        bg='white',
+        fg='green'
+    )
+
+    def send_info():
         pass
+
+def start():
+    client.send('INFO REQUEST'.encode('utf-8'))
+    host, port = '127.0.0.1', 9000
+    info = json.loads(client.recv(1024).decode('utf-8'))
+
+    chatClient = Client(host, port, info["Username"], info['Extras']['Theme'], info['Extras']['Badge'], info['Extras']['Text'])
+    chatClient.start()
+
+def startup():
+    window = Tk()
+    window.geometry('400x400')
+    window.config(bg='black')
+    window.title('Cord Chat App')
     
-class Login:
-    def __init__(self):
-        self.login_wind = Tk()
-        self.login_wind.geometry('400x400')
-        self.login_wind.config(bg='black')
-        self.login_wind.title('Log In')
+    chat_label = Label(
+        window,
+        text="Cord Chat",
+        font=("Courier", 20, 'bold'),
+        bg='black',
+        fg='white'
+    )
 
-        self.login_label = Label(
-            self.login_wind,
-            text='Please Login',
-            font=('Courier', 20,'bold'),
-            bg='black',
-            fg='white'
-        )
+    slang_line_label = Label(
+        window,
+        text="Where Communication happens best!",
+        font=("Courier", 10, "bold"),
+        bg='black',
+        fg='white',
+    )
 
-        self.name_label = Label(
-            self.login_wind,
-            text='Username:',
-            font=('Courier', 10, 'bold'),
-            bg='black',
-            fg='white'
-        )
+    status_button = Button(
+        window,
+        text="Status",
+        font=("Courier", 14, "bold"),
+        bg='yellow',
+        fg='black',
+        command=status
+    )
 
-        self.pass_label = Label(
-            self.login_wind,
-            text='Password:',
-            font=('Courier', 10, 'bold'),
-            bg='black',
-            fg='white'
-        )
+    delete_button = Button(
+        window,
+        text="Delete Account",
+        font=("Courier", 14, "bold"),
+        bg='green',
+        fg='white',
+        command=delete_account
+    )
 
-        self.username = Entry(
-            self.login_wind,
-            textvariable=self.name_label,
-            width=30,
-        )
+    change_button = Button(
+        window,
+        text="Settings",
+        font=("Courier", 14, "bold"),
+        bg='gray',
+        fg='black',
+        command=settings
+    )
 
-        self.password = Entry(
-            self.login_wind,
-            textvariable=self.pass_label,
-            width=30,
-        )
+    boost_button = Button(
+        window,
+        text="Boost Subscription",
+        font=("Courier", 14, "bold"),
+        bg='purple',
+        fg='white'
+    )
 
-        self.login_button = Button(
-            self.login_wind,
-            text='Log In',
-            font=('Courier', 12, 'bold'),
-            bg='black',
-            fg='white',
-            command=
-        )
+    start_button = Button(
+        window,
+        text="Join To Chat",
+        font=("Courier", 14, "bold"),
+        bg='blue',
+        fg='white',
+        command=start
+    )
+    
+    chat_label.place(x=135, y=60)
+    slang_line_label.place(x=73, y=110)
+    status_button.place(x=74, y=180)
+    change_button.place(x=74, y=219)
+    delete_button.place(x=157, y=180)
+    boost_button.place(x=95, y=258)
+    start_button.place(x=179, y=219)
+
+    window.mainloop()
+
+def login():
+    login_wind = Tk()
+    login_wind.geometry('400x400')
+    login_wind.config(bg='black')
+    login_wind.title('Log In')
+
+    login_label = Label(
+        login_wind,
+        text='Please Login',
+        font=('Courier', 20,'bold'),
+        bg='black',
+        fg='white'
+    )
+
+    name_label = Label(
+        login_wind,
+        text='Username:',
+        font=('Courier', 10, 'bold'),
+        bg='black',
+        fg='white'
+    )
+
+    pass_label = Label(
+        login_wind,
+        text='Password:',
+        font=('Courier', 10, 'bold'),
+        bg='black',
+        fg='white'
+    )
+
+    username = Entry(
+        login_wind,
+        textvariable=name_label,
+        width=30,
+    )
+
+    password = Entry(
+        login_wind,
+        textvariable=pass_label,
+        width=30,
+    )
+
+    def get_info():
+        client.send('LOGIN REQUEST'.encode('utf-8'))
+        print(username.get(), password.get())
         
-        self.login_label.place(x=100, y=60)
-        self.name_label.place(x=65, y=140)
-        self.pass_label.place(x=65, y=160)
-        self.username.place(x=145, y=140)
-        self.password.place(x=145, y=160)
-        self.login_button.place(x=165, y=280)
+        client.send(username.get().encode('utf-8'))
+        client.send(password.get().encode('utf-8'))
+        login_wind.destroy()
 
-        self.login_wind.mainloop()
-
-    def get_info(self):
-        app_client.send('LOGIN REQUEST'.encode('utf-8'))
-        app_client.send(self.username.get().encode('utf-8'))
-        app_client.send(self.password.get().encode('utf-8'))
-
-        data = json.loads(app_client.recv(1024).decode('utf-8'))
+        data = client.recv(1024).decode('utf-8')
         print(data)
-        
-class SignUp:
-    def __init__(self):
-        self.sign_up_wind = Tk()
-        self.sign_up_wind.geometry('400x400')
-        self.sign_up_wind.config(bg='black')
-        self.sign_up_wind.title('Sign Up')
 
-        # Info Labels
+        startup()
 
-        self.sign_up_lbl = Label(
-            self.sign_up_wind,
-            text='Sign Up',
-            font=('Courier', 20, 'bold'),
-            bg='black',
-            fg='white'
-        )
+    login_button = Button(
+        login_wind,
+        text='Log In',
+        font=('Courier', 12, 'bold'),
+        bg='black',
+        fg='white',
+        command=get_info
+    )
+    
+    login_label.place(x=100, y=60)
+    name_label.place(x=65, y=140)
+    pass_label.place(x=65, y=160)
+    username.place(x=145, y=140)
+    password.place(x=145, y=160)
+    login_button.place(x=165, y=280)
 
-        self.name_label = Label(
-            self.sign_up_wind,
-            text='Username:',
-            font=('Courier', 10, 'bold'),
-            bg='black',
-            fg='white'
-        )
+    login_wind.mainloop()
 
-        self.mail_label = Label(
-            self.sign_up_wind,
-            text='Email:',
-            font=('Courier', 10, 'bold'),
-            bg='black',
-            fg='white'
-        )
+def sign_up():
+    sign_up_wind = Tk()
+    sign_up_wind.geometry('400x400')
+    sign_up_wind.config(bg='black')
+    sign_up_wind.title('Sign Up')
 
-        self.pass_label = Label(
-            self.sign_up_wind,
-            text='Password:',
-            font=('Courier', 10, 'bold'),
-            bg='black',
-            fg='white'
-        )
+    # Info Labels
 
-        self.age_label = Label(
-            self.sign_up_wind,
-            text='Age:',
-            font=('Courier', 10, 'bold'),
-            bg='black',
-            fg='white'
-        )
+    sign_up_lbl = Label(
+        sign_up_wind,
+        text='Sign Up',
+        font=('Courier', 20, 'bold'),
+        bg='black',
+        fg='white'
+    )
 
-        self.phone_number_label = Label(
-            self.sign_up_wind,
-            text='Phone Number:',
-            font=('Courier', 10, 'bold'),
-            bg='black',
-            fg='white'
-        )
+    name_label = Label(
+        sign_up_wind,
+        text='Username:',
+        font=('Courier', 10, 'bold'),
+        bg='black',
+        fg='white'
+    )
 
-        # Text Fields
+    mail_label = Label(
+        sign_up_wind,
+        text='Email:',
+        font=('Courier', 10, 'bold'),
+        bg='black',
+        fg='white'
+    )
 
-        self.username = Entry(
-            self.sign_up_wind,
-            textvariable=self.name_label,
-            width=30,
-        )
+    pass_label = Label(
+        sign_up_wind,
+        text='Password:',
+        font=('Courier', 10, 'bold'),
+        bg='black',
+        fg='white'
+    )
 
-        self.email = Entry(
-            self.sign_up_wind,
-            textvariable=self.mail_label,
-            width=30,
-        )
+    age_label = Label(
+        sign_up_wind,
+        text='Age:',
+        font=('Courier', 10, 'bold'),
+        bg='black',
+        fg='white'
+    )
 
-        self.password = Entry(
-            self.sign_up_wind,
-            textvariable=self.pass_label,
-            width=30,
-        )
+    phone_number_label = Label(
+        sign_up_wind,
+        text='Phone Number:',
+        font=('Courier', 10, 'bold'),
+        bg='black',
+        fg='white'
+    )
 
-        self.age = Entry(
-            self.sign_up_wind,
-            textvariable=self.age_label,
-            width=30,
-        )
+    # Text Fields
 
-        self.phone_number = Entry(
-            self.sign_up_wind,
-            textvariable=self.phone_number_label,
-            width=30,
-        )
+    username = Entry(
+        sign_up_wind,
+        textvariable=name_label,
+        width=30,
+    )
 
-        self.sign_up_button = Button(
-            self.sign_up_wind,
-            text='Sign Up',
-            font=('Courier', 12, 'bold'),
-            bg='black',
-            fg='white',
-            command=self.create_account
-        )
+    email = Entry(
+        sign_up_wind,
+        textvariable=mail_label,
+        width=30,
+    )
 
-        self.sign_up_lbl.place(x=143, y=60)
-        self.name_label.place(x=65, y=140)
-        self.mail_label.place(x=89, y=160)
-        self.pass_label.place(x=65, y=180)
-        self.age_label.place(x=105, y=200)
-        self.phone_number_label.place(x=33, y=220)
+    password = Entry(
+        sign_up_wind,
+        textvariable=pass_label,
+        width=30,
+    )
 
-        self.username.place(x=145, y=140)
-        self.email.place(x=145, y=160)
-        self.password.place(x=145, y=180)
-        self.age.place(x=145, y=200)
-        self.phone_number.place(x=145, y=220)
-        self.sign_up_button.place(x=165, y=280)
+    age = Entry(
+        sign_up_wind,
+        textvariable=age_label,
+        width=30,
+    )
 
-        self.sign_up_wind.mainloop()
+    phone_number = Entry(
+        sign_up_wind,
+        textvariable=phone_number_label,
+        width=30,
+    )
 
-    def create_account(self):
-        app_client.send(self.username.get().encode('utf-8'))
-        app_client.send(self.email.get().encode('utf-8'))
-        app_client.send(self.password.get().encode('utf-8'))
-        app_client.send(self.age.get().encode('utf-8'))
-        app_client.send(self.phone_number.get().encode('utf-8'))
+    def create_account():
+        client.send(username.get().encode('utf-8'))
+        client.send(email.get().encode('utf-8'))
+        client.send(password.get().encode('utf-8'))
+        client.send(age.get().encode('utf-8'))
+        client.send(phone_number.get().encode('utf-8'))
 
-        response = app_client.recv(1024).decode('utf-8')
+        response = client.recv(1024).decode('utf-8')
         print(response)
 
-def create1():
-    start = Start()
+    sign_up_button = Button(
+        sign_up_wind,
+        text='Sign Up',
+        font=('Courier', 12, 'bold'),
+        bg='black',
+        fg='white',
+        command=create_account
+    )
 
-def create2():
-    status = Status()
+    sign_up_lbl.place(x=143, y=60)
+    name_label.place(x=65, y=140)
+    mail_label.place(x=89, y=160)
+    pass_label.place(x=65, y=180)
+    age_label.place(x=105, y=200)
+    phone_number_label.place(x=33, y=220)
 
-def create3():
-    settings = Settings()
+    username.place(x=145, y=140)
+    email.place(x=145, y=160)
+    password.place(x=145, y=180)
+    age.place(x=145, y=200)
+    phone_number.place(x=145, y=220)
+    sign_up_button.place(x=165, y=280)
 
-def create4():
-    delete_account = DeleteAccount()
-
-def create5():
-    login = Login()
-
-def create6():
-    sign_up = SignUp()
-
-def create7():
-    boost = Boost()
-
-class Start:
-    def __init__(self):
-        self.window = Tk()
-        self.window.geometry('400x400')
-        self.window.config(bg='black')
-        self.window.title('Cord Chat App')
-        
-        self.chat_label = Label(
-            self.window,
-            text="Cord Chat",
-            font=("Courier", 20, 'bold'),
-            bg='black',
-            fg='white'
-        )
-
-        self.sign_up_button = Button(
-            self.window,
-            text="Sign Up",
-            font=("Courier", 14, "bold"),
-            bg='yellow',
-            fg='black',
-            command=create6
-        )
-
-        self.login_button = Button(
-            self.window,
-            text="Log In",
-            font=("Courier", 14, "bold"),
-            bg='green',
-            fg='white',
-            command=create5
-        )
-
-class Menu:
-    def __init__(self):
-        self.window = Tk()
-        self.window.geometry('400x400')
-        self.window.config(bg='black')
-        self.window.title('Cord Chat App')
-        
-        self.chat_label = Label(
-            self.window,
-            text="Cord Chat",
-            font=("Courier", 20, 'bold'),
-            bg='black',
-            fg='white'
-        )
-
-        self.slang_line_label = Label(
-            self.window,
-            text="Where Communication happens best!",
-            font=("Courier", 10, "bold"),
-            bg='black',
-            fg='white',
-        )
-
-        self.status_button = Button(
-            self.window,
-            text="Status",
-            font=("Courier", 14, "bold"),
-            bg='yellow',
-            fg='black',
-            command=create2
-        )
-
-        self.delete_button = Button(
-            self.window,
-            text="Delete Account",
-            font=("Courier", 14, "bold"),
-            bg='green',
-            fg='white',
-            command=create4
-        )
-
-        self.change_button = Button(
-            self.window,
-            text="Settings",
-            font=("Courier", 14, "bold"),
-            bg='gray',
-            fg='black',
-            command=create3
-        )
-
-        self.boost_button = Button(
-            self.window,
-            text="Boost Subscription",
-            font=("Courier", 14, "bold"),
-            bg='purple',
-            fg='white',
-            command=create7
-        )
-
-        self.start_button = Button(
-            self.window,
-            text="Join To Chat",
-            font=("Courier", 14, "bold"),
-            bg='blue',
-            fg='white',
-            command=create1
-        )
-
-    def start_to_chat(self):
-        self.window.destroy()
-        self.app.start()
-
-    def start(self):
-        self.chat_label.place(x=135, y=60)
-        self.slang_line_label.place(x=73, y=110)
-        self.status_button.place(x=74, y=180)
-        self.change_button.place(x=74, y=219)
-        self.delete_button.place(x=157, y=180)
-        self.boost_button.place(x=95, y=258)
-        self.start_button.place(x=179, y=219)
-
-        self.window.mainloop()
+    sign_up_wind.mainloop()
