@@ -92,8 +92,8 @@ def delete_account():
     )
 
     confirmation.place(x=0, y=90)
-    yes_button.place(x=150, y=120)
-    no_button.place(x=190, y=120)
+    yes_button.place(x=150, y=150)
+    no_button.place(x=200, y=150)
     del_acc_wind.mainloop()
 
 def settings():

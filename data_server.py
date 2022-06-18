@@ -100,8 +100,6 @@ class DataServer:
                     client.send(str(obj).encode('utf-8'))
 
             except Exception as e:
-                print(f'{client} has been disconnected...')
-                client.close()
                 self.clients.remove(client)
                 del self.users[client]
                 break
