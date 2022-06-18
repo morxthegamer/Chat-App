@@ -79,9 +79,12 @@ class DataServer:
                 # SETTINGS
                 if (request == 'SETTINGS REQUEST'):
                     adjustment = client.recv(1024).decode('utf-8')
+                    change = client.recv(1024).decode('utf-8')
                     
                     obj = self.users[client]
-                    obj[adjustment] = ''
+                    obj[adjustment] = change
+
+                    self.users[client] = obj
 
                 # DELETE ACCOUNT
                 if (request == 'DELETE ACCOUNT REQUEST'):
@@ -96,16 +99,12 @@ class DataServer:
                     obj = self.users[client]
                     client.send(str(obj).encode('utf-8'))
 
-            except ConnectionResetError:
-                self.clients.remove(client)
-                del self.users[client]
-                client.close()
-
             except Exception as e:
-                client.send(f'An error occured, {e}'.encode('utf-8'))
+                print(f'{client} has been disconnected...')
+                client.close()
                 self.clients.remove(client)
                 del self.users[client]
-                client.close()
+                break
 
     def receive(self):
         client, address = self.server.accept()
@@ -117,7 +116,7 @@ class DataServer:
         handling_thread.start()
 
     def start(self):
-        print(f'Server listening on {HOST}...')
+        print(f'Data Server listening on {HOST}...')
         self.receive()
 
 if __name__ == '__main__':

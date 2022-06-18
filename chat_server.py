@@ -51,7 +51,7 @@ class Server:
             thread.start()
     
     def start(self):
-        print(f"Server is listening! On {HOST}...")
+        print(f"Chat Server is listening! On {HOST}...")
         self.receive()
 
 if __name__ == "__main__":

@@ -67,12 +67,19 @@ def delete_account():
         fg='white'
     )
 
+    def send_info():
+        client.send('DELETE ACCOUNT REQUEST')
+        done = client.recv(1024).decode('utf-8')
+        print(done)
+        exit(0)
+
     yes_button = Button(
         del_acc_wind,
         text='Yes',
         font=('Courier', 12, 'bold'),
         bg='green',
-        fg='black'
+        fg='black',
+        command=send_info
     )
 
     no_button = Button(
@@ -80,19 +87,14 @@ def delete_account():
         text='No',
         font=('Courier', 12, 'bold'),
         bg='red',
-        fg='black'
+        fg='black',
+        command=del_acc_wind.destroy
     )
 
-    confirmation.place(x=100, y=90)
-    yes_button.place(x=70, y=120)
-    no_button.place(x=100, y=120)
+    confirmation.place(x=0, y=90)
+    yes_button.place(x=150, y=120)
+    no_button.place(x=190, y=120)
     del_acc_wind.mainloop()
-
-    def send_info():
-        client.send('DELETE ACCOUNT REQUEST')
-        done = client.recv(1024).decode('utf-8')
-        print(done)
-        exit(0)
 
 def settings():
     settings_wind = Tk()
