@@ -2,6 +2,9 @@ from data import Data
 import datetime
 from customtkinter import *
 
+def promotion():
+    pass
+
 class Boost:
     def __init__(self, username, subscription):
         print(f'Welcome {username}, to your Boost Subscription!')

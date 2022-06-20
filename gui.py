@@ -1,60 +1,58 @@
 import tkinter
-import customtkinter
-
-class TKFrame:
-    def __init__(self, app_width, app_height, backg, title):
-        self.window = tkinter.Tk()
-        self.window.geometry(f'{app_width}x{app_height}')
-        self.window.config(bg=backg)
-        self.window.title(title)
-
-class CTKFrame:
-    def __init__(self, app_width, app_height, backg, title, text):
-        customtkinter.set_appearance_mode(backg)
-        customtkinter.set_default_color_theme('blue')
-
-        self.window = customtkinter.CTk()
-        self.window.geometry(f'{app_width}x{app_height}')
-        self.window.title(title)
 
 class SuccessWindow:
-    def __init__(self, app_width, app_height, backg, title, line):
+    def __init__(self):
         self.window = tkinter.Tk()
-        self.window.geometry(f'{app_width}x{app_height}')
-        self.window.config(bg=backg)
-        self.window.title(title)
+        self.window.geometry('400x400')
+        self.window.config(bg='black')
+        self.window.title('Success!')
 
-        self.image = tkinter.PhotoImage(file=)
+        self.image = tkinter.PhotoImage(file='Success.png')
 
-        self.success_label = tkinter.Label(
+        self.success_img = tkinter.Label(
             self.window,
-            text=line,
-            bg='black',
-            font=('Courier', 12, 'bold')
-            fg='green',
-            image=self.image
+            image=self.image,
+            bg='black'
         )
 
-        self.success_label.place(anchor=tkinter.CENTER)
+        self.success_lbl = tkinter.Label(
+            self.window,
+            text='Success!',
+            bg='black',
+            font=('Times', 20, 'bold'),
+            fg='green',
+        )
+
+        self.success_img.place(x=80, y=35)
+        self.success_lbl.place(x=155, y=300)
         self.window.mainloop()
 
 class ErrorWindow:
-    def __init__(self, app_width, app_height, bgcol, title, line):
+    def __init__(self):
         self.window = tkinter.Tk()
-        self.window.geometry(f'{app_width}x{app_height}')
-        self.window.config(bg=bgcol)
-        self.window.title(title)
+        self.window.geometry(f'400x400')
+        self.window.config(bg='black')
+        self.window.title('Error!')
 
-        self.image = tkinter.PhotoImage(file=)
+        self.image = tkinter.PhotoImage(file='Error.png')
 
-        self.success_label = tkinter.Label(
+        self.error = tkinter.Label(
             self.window,
-            text=line,
             bg='black',
-            font=('Courier', 12, 'bold')
-            fg='red',
             image=self.image
         )
 
-        self.success_label.place(anchor=tkinter.CENTER)
+        self.error_lbl = tkinter.Label(
+            self.window,
+            text='Error!',
+            font=('Times', 20, 'bold'),
+            bg='black',
+            fg='red'
+        )
+
+        self.error.place(x=80, y=35)
+        self.error_lbl.place(x=160, y=300)
         self.window.mainloop()
+
+wind1 = SuccessWindow()
+wind2 = ErrorWindow()

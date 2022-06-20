@@ -30,7 +30,7 @@ class DataServer:
 
                     try:
                         user = self.data.getDataJson(f'user[{username}].json')
-                        self.users[client] = user
+                        self.users[self.clients.index(client)] = user
                     except Exception:
                         client.send(f'Login Failed. No username such as {username} exists.'.encode('utf-8'))
                     
@@ -48,16 +48,14 @@ class DataServer:
                     age = client.recv(1024).decode('utf-8')
                     phone = client.recv(1024).decode('utf-8')
 
+                    print(username, email, password, age, phone)
+
                     for file in os.listdir('DataBase'):
                         filename = file[5:-6]
+                        print(file)
 
                         if username == filename:
                             client.send('This username is already taken. Please try again.'.encode('utf-8'))
-
-                        mail = self.data.getDataJson(file)['Email']
-
-                        if (email == mail):
-                            client.send('This email is already taken. Please try again.'.encode('utf-8'))
 
                     user = {
                         'Username': username,
@@ -100,18 +98,21 @@ class DataServer:
                     client.send(str(obj).encode('utf-8'))
 
             except Exception as e:
+                index = self.clients.index(client)
+                client.close()
                 self.clients.remove(client)
-                del self.users[client]
+                del self.users[index]
                 break
 
     def receive(self):
-        client, address = self.server.accept()
-        print(f'{client} connected with address: {address}.')
+        while True:
+            client, address = self.server.accept()
+            print(f'{client} connected with address: {address}.')
 
-        self.clients.append(client)
+            self.clients.append(client)
 
-        handling_thread = threading.Thread(target=self.handle_client, args=(client,))
-        handling_thread.start()
+            handling_thread = threading.Thread(target=self.handle_client, args=(client,))
+            handling_thread.start()
 
     def start(self):
         print(f'Data Server listening on {HOST}...')
