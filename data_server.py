@@ -23,81 +23,129 @@ class DataServer:
 
                 # LOGIN
                 if (request == 'LOGIN REQUEST'):
-                    username = client.recv(1024).decode('utf-8')
-                    password = client.recv(1024).decode('utf-8')
-
-                    print(username, password)
-
                     try:
-                        user = self.data.getDataJson(f'user[{username}].json')
-                        self.users[self.clients.index(client)] = user
-                    except Exception:
-                        client.send(f'Login Failed. No username such as {username} exists.'.encode('utf-8'))
-                    
-                    if (user['Password'] != password):
-                        client.send('Login Failed. Wrong Password.'.encode('utf-8'))
+                        username = client.recv(1024).decode('utf-8')
+                        password = client.recv(1024).decode('utf-8')
 
-                    if (user['Username'] == username and user['Password'] == password):
-                        client.send('Successfully logged in!'.encode('utf-8'))
+                        print(username, password)
+
+                        try:
+                            user = self.data.getDataJson(f'user[{username}].json')
+                            self.users[self.clients.index(client)] = user
+                        except Exception:
+                            client.send(f'Login Failed. No username such as {username} exists.'.encode('utf-8'))
+                        
+                        if (user['Password'] != password):
+                            client.send('Login Failed. Wrong Password.'.encode('utf-8'))
+
+                        if (user['Username'] == username and user['Password'] == password):
+                            client.send('Successfully logged in!'.encode('utf-8'))
+
+                    except Exception as e:
+                        index = self.clients.index(client)
+                        client.close()
+                        self.clients.remove(client)
+                        del self.users[index]
+                        break
 
                 # SIGN UP
                 if (request == 'SIGN UP REQUEST'):
-                    username = client.recv(1024).decode('utf-8')
-                    email = client.recv(1024).decode('utf-8')
-                    password = client.recv(1024).decode('utf-8')
-                    age = client.recv(1024).decode('utf-8')
-                    phone = client.recv(1024).decode('utf-8')
+                    try:
+                        username = client.recv(1024).decode('utf-8')
+                        email = client.recv(1024).decode('utf-8')
+                        password = client.recv(1024).decode('utf-8')
+                        age = client.recv(1024).decode('utf-8')
+                        phone = client.recv(1024).decode('utf-8')
 
-                    print(username, email, password, age, phone)
+                        print(username, email, password, age, phone)
 
-                    for file in os.listdir('DataBase'):
-                        filename = file[5:-6]
-                        print(file)
+                        for file in os.listdir('DataBase'):
+                            filename = file[5:-6]
+                            print(file)
 
-                        if username == filename:
-                            client.send('This username is already taken. Please try again.'.encode('utf-8'))
+                            if username == filename:
+                                client.send('This username is already taken. Please try again.'.encode('utf-8'))
+                                self.clients.remove(client)
+                                client.close()
 
-                    user = {
-                        'Username': username,
-                        'Email': email,
-                        'Password': password,
-                        'Age': age,
-                        'Contact': phone,
-                        'Extras': {
-                            'Theme': 'white',
-                            'Badge': '💬',
-                            'Text': 'Type A Message: ',
-                            'Boost Subscription': False
+                        user = {
+                            'Username': username,
+                            'Email': email,
+                            'Password': password,
+                            'Age': age,
+                            'Contact': phone,
+                            'Extras': {
+                                'Theme': 'white',
+                                'Badge': '💬',
+                                'Text': 'Type A Message: ',
+                                'Boost': False
+                            }
                         }
-                    }
 
-                    self.data.setDataJson(f'user[{username}].json', user)
-                    client.send('Successfully signed up!'.encode('utf-8'))
+                        self.data.setDataJson(f'user[{username}].json', user)
+                        client.send('Successfully signed up!'.encode('utf-8'))
+
+                    except Exception as e:
+                        index = self.clients.index(client)
+                        client.close()
+                        self.clients.remove(client)
+                        del self.users[index]
+                        break
 
                 # SETTINGS
                 if (request == 'SETTINGS REQUEST'):
-                    adjustment = client.recv(1024).decode('utf-8')
-                    change = client.recv(1024).decode('utf-8')
-                    
-                    obj = self.users[client]
-                    obj[adjustment] = change
+                    try:
+                        adjustment = client.recv(1024).decode('utf-8')
+                        change = client.recv(1024).decode('utf-8')
+                        
+                        obj = self.users[self.clients.index(client)]
+                        obj[adjustment] = change
 
-                    self.users[client] = obj
+                        self.users[self.clients.index(client)] = obj
+                    except Exception as e:
+                        index = self.clients.index(client)
+                        client.close()
+                        self.clients.remove(client)
+                        del self.users[index]
+                        break
 
                 # DELETE ACCOUNT
                 if (request == 'DELETE ACCOUNT REQUEST'):
-                    os.remove('DataBase/user[{}].json'.format(self.users[client]["Username"]))
-                    client.send('Account deleted successfully'.encode('utf-8'))
-                    self.clients.remove(client)
-                    del self.users[client]
-                    client.close()
+                    try:
+                        os.remove('DataBase/user[{}].json'.format(self.users[self.clients.index(client)]["Username"]))
+                        client.send('Account deleted successfully'.encode('utf-8'))
+                        index = self.clients.index(client)
+                        client.close()
+
+                        self.clients.remove(client)
+                        del self.users[index]
+                        break
+
+                    except Exception as e:
+                        index = self.clients.index(client)
+                        client.close()
+                        self.clients.remove(client)
+                        del self.users[index]
+                        break
 
                 # INFORMATION
                 if (request == 'INFO REQUEST'):
-                    obj = self.users[client]
-                    client.send(str(obj).encode('utf-8'))
+                    try:
+                        obj = self.users[self.clients.index(client)]
+                        client.send(str(obj).encode('utf-8'))
+                    except Exception as e:
+                        index = self.clients.index(client)
+                        client.close()
+                        self.clients.remove(client)
+                        del self.users[index]
+                        break
+
+                # BOOST
+                if (request == 'BOOST REQUEST'):
+                    pass
 
             except Exception as e:
+                print(e)
                 index = self.clients.index(client)
                 client.close()
                 self.clients.remove(client)

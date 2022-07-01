@@ -5,6 +5,12 @@ from customtkinter import *
 def promotion():
     pass
 
+def purchase():
+    pass
+
+def dashboard():
+    pass
+
 class Boost:
     def __init__(self, username, subscription):
         print(f'Welcome {username}, to your Boost Subscription!')
