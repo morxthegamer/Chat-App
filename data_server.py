@@ -13,7 +13,7 @@ class DataServer:
 
         self.data = Data('DataBase')
         self.clients = []
-        self.users = {}
+        self.users = []
 
     def handle_client(self, client):
         while (True):
@@ -31,7 +31,8 @@ class DataServer:
 
                         try:
                             user = self.data.getDataJson(f'user[{username}].json')
-                            self.users[self.clients.index(client)] = user
+                            self.users.insert(self.clients.index(client), user)
+
                         except Exception:
                             client.send(f'Login Failed. No username such as {username} exists.'.encode('utf-8'))
                         
@@ -45,7 +46,7 @@ class DataServer:
                         index = self.clients.index(client)
                         client.close()
                         self.clients.remove(client)
-                        del self.users[index]
+                        self.users.remove(self.users[index])
                         break
 
                 # SIGN UP
@@ -89,7 +90,7 @@ class DataServer:
                         index = self.clients.index(client)
                         client.close()
                         self.clients.remove(client)
-                        del self.users[index]
+                        self.users.remove(self.users[index])
                         break
 
                 # SETTINGS
@@ -101,12 +102,20 @@ class DataServer:
                         obj = self.users[self.clients.index(client)]
                         obj[adjustment] = change
 
-                        self.users[self.clients.index(client)] = obj
+                        self.data.setDataJson('user[{}].json'.format(obj['Username']), obj)
+                        client.send('Successfully changed settings!'.encode('utf-8'))
+                        
+                        index = self.clients.index(client)
+                        client.close()
+                        self.clients.remove(client)
+                        self.users.remove(self.users[index])
+                        break
+
                     except Exception as e:
                         index = self.clients.index(client)
                         client.close()
                         self.clients.remove(client)
-                        del self.users[index]
+                        self.users.remove(self.users[index])
                         break
 
                 # DELETE ACCOUNT
@@ -114,18 +123,18 @@ class DataServer:
                     try:
                         os.remove('DataBase/user[{}].json'.format(self.users[self.clients.index(client)]["Username"]))
                         client.send('Account deleted successfully'.encode('utf-8'))
+
                         index = self.clients.index(client)
                         client.close()
-
                         self.clients.remove(client)
-                        del self.users[index]
+                        self.users.remove(self.users[index])
                         break
 
                     except Exception as e:
                         index = self.clients.index(client)
                         client.close()
                         self.clients.remove(client)
-                        del self.users[index]
+                        self.users.remove(self.users[index])
                         break
 
                 # INFORMATION
@@ -137,7 +146,7 @@ class DataServer:
                         index = self.clients.index(client)
                         client.close()
                         self.clients.remove(client)
-                        del self.users[index]
+                        self.users.remove(self.users[index])
                         break
 
                 # BOOST
@@ -149,7 +158,6 @@ class DataServer:
                 index = self.clients.index(client)
                 client.close()
                 self.clients.remove(client)
-                del self.users[index]
                 break
 
     def receive(self):

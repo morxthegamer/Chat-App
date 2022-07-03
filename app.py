@@ -127,23 +127,28 @@ def login():
     )
 
     def get_info():
-        client.send('LOGIN REQUEST'.encode('utf-8'))
-        print(username.get(), password.get())
-        
-        client.send(username.get().encode('utf-8'))
-        client.send(password.get().encode('utf-8'))
-        login_wind.destroy()
-
-        data = client.recv(1024).decode('utf-8')
-        print(data)
-
-        if ('Failed' in data):
-            e = ErrorWindow()
-            exit(1)
+        try:
+            client.send('LOGIN REQUEST'.encode('utf-8'))
+            print(username.get(), password.get())
             
-        if ('Success' in data):
-            s = SuccessWindow()
-            startup()
+            client.send(username.get().encode('utf-8'))
+            client.send(password.get().encode('utf-8'))
+            login_wind.destroy()
+
+            data = client.recv(1024).decode('utf-8')
+            print(data)
+
+            if ('Failed' in data):
+                e = ErrorWindow()
+                exit(1)
+                
+            if ('Success' in data):
+                s = SuccessWindow()
+                startup()
+    
+        except Exception as e:
+            print(e)
+            exit(1)
 
     login_button = Button(
         login_wind,
@@ -252,33 +257,38 @@ def sign_up():
     )
 
     def create_account():
-        client.send('SIGN UP REQUEST'.encode('utf-8'))
+        try:
+            client.send('SIGN UP REQUEST'.encode('utf-8'))
 
-        client.send(username.get().encode('utf-8'))
-        time.sleep(1)
+            client.send(username.get().encode('utf-8'))
+            time.sleep(1)
 
-        client.send(email.get().encode('utf-8'))
-        time.sleep(1)
+            client.send(email.get().encode('utf-8'))
+            time.sleep(1)
 
-        client.send(password.get().encode('utf-8'))
-        time.sleep(1)
+            client.send(password.get().encode('utf-8'))
+            time.sleep(1)
 
-        client.send(age.get().encode('utf-8'))
-        time.sleep(1)
+            client.send(age.get().encode('utf-8'))
+            time.sleep(1)
 
-        client.send(phone_number.get().encode('utf-8'))
-        sign_up_wind.destroy()
+            client.send(phone_number.get().encode('utf-8'))
+            sign_up_wind.destroy()
 
-        response = client.recv(1024).decode('utf-8')
+            response = client.recv(1024).decode('utf-8')
 
-        if 'Please' in response:
-            print(response)
-            e = ErrorWindow
+            if 'Please' in response:
+                print(response)
+                er = ErrorWindow
+                exit(1)
+
+            if 'Success' in response:
+                print(response)
+                s = SuccessWindow()
+
+        except Exception as e:
+            print(e)
             exit(1)
-
-        if 'Success' in response:
-            print(response)
-            s = SuccessWindow()
 
     sign_up_button = Button(
         sign_up_wind,
