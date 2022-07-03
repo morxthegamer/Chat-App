@@ -1,6 +1,4 @@
-from optparse import OptionContainer
 from tkinter import *
-from tkinter.scrolledtext import ScrolledText
 
 class SuccessWindow:
     def __init__(self):

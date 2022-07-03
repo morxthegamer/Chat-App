@@ -166,6 +166,7 @@ class DataServer:
             print(f'{client} connected with address: {address}.')
 
             self.clients.append(client)
+            print(f'Client: {client} is the #{self.clients.index(client)} to use the app.')
 
             handling_thread = threading.Thread(target=self.handle_client, args=(client,))
             handling_thread.start()
