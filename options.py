@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import ttk
 from chat_client import Client
+import time
+from gui import *
 
 def start(client):
     client.send('INFO REQUEST'.encode('utf-8'))
@@ -165,10 +167,12 @@ def settings(client):
         else:
             client.send(item.get().encode('utf-8'))
 
+        time.sleep(1)
         client.send(adjustment.get('1.0', 'end').encode('utf-8'))
         done = client.recv(1024).decode('utf-8')
         
         if 'Success' in done:
+            s = SuccessWindow()
             exit(1)
 
     adj_button = Button(

@@ -279,7 +279,7 @@ def sign_up():
 
             if 'Please' in response:
                 print(response)
-                er = ErrorWindow
+                er = ErrorWindow()
                 exit(1)
 
             if 'Success' in response:

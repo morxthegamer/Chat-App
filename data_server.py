@@ -15,6 +15,12 @@ class DataServer:
         self.clients = []
         self.users = []
 
+    def remove_user(self, client):
+        i = self.clients.index(client)
+        self.clients.remove(client)
+        self.users.pop(i)
+        client.close()
+
     def handle_client(self, client):
         while (True):
             try:
@@ -43,10 +49,8 @@ class DataServer:
                             client.send('Successfully logged in!'.encode('utf-8'))
 
                     except Exception as e:
-                        index = self.clients.index(client)
-                        client.close()
-                        self.clients.remove(client)
-                        self.users.remove(self.users[index])
+                        self.remove_user(client)
+                        exit(1)
                         break
 
                 # SIGN UP
@@ -87,35 +91,31 @@ class DataServer:
                         client.send('Successfully signed up!'.encode('utf-8'))
 
                     except Exception as e:
-                        index = self.clients.index(client)
-                        client.close()
-                        self.clients.remove(client)
-                        self.users.remove(self.users[index])
+                        self.remove_user(client)
+                        exit(1)
                         break
 
                 # SETTINGS
                 if (request == 'SETTINGS REQUEST'):
                     try:
                         adjustment = client.recv(1024).decode('utf-8')
-                        change = client.recv(1024).decode('utf-8')
+                        change = client.recv(1024).decode('utf-8')[:-1]
+
+                        print(adjustment, change)
                         
                         obj = self.users[self.clients.index(client)]
                         obj[adjustment] = change
 
                         self.data.setDataJson('user[{}].json'.format(obj['Username']), obj)
                         client.send('Successfully changed settings!'.encode('utf-8'))
-                        
-                        index = self.clients.index(client)
-                        client.close()
-                        self.clients.remove(client)
-                        self.users.remove(self.users[index])
+
+                        self.remove_user(client)
+                        exit(1)
                         break
 
                     except Exception as e:
-                        index = self.clients.index(client)
-                        client.close()
-                        self.clients.remove(client)
-                        self.users.remove(self.users[index])
+                        self.remove_user(client)
+                        exit(1)
                         break
 
                 # DELETE ACCOUNT
@@ -128,13 +128,12 @@ class DataServer:
                         client.close()
                         self.clients.remove(client)
                         self.users.remove(self.users[index])
+                        exit(1)
                         break
 
                     except Exception as e:
-                        index = self.clients.index(client)
-                        client.close()
-                        self.clients.remove(client)
-                        self.users.remove(self.users[index])
+                        self.remove_user(client)
+                        exit(1)
                         break
 
                 # INFORMATION
@@ -143,10 +142,8 @@ class DataServer:
                         obj = self.users[self.clients.index(client)]
                         client.send(str(obj).encode('utf-8'))
                     except Exception as e:
-                        index = self.clients.index(client)
-                        client.close()
-                        self.clients.remove(client)
-                        self.users.remove(self.users[index])
+                        self.remove_user(client)
+                        exit(1)
                         break
 
                 # BOOST
@@ -154,10 +151,8 @@ class DataServer:
                     pass
 
             except Exception as e:
-                print(e)
-                index = self.clients.index(client)
-                client.close()
-                self.clients.remove(client)
+                self.remove_user(client)
+                exit(1)
                 break
 
     def receive(self):
