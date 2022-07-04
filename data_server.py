@@ -50,8 +50,8 @@ class DataServer:
 
                     except Exception as e:
                         self.remove_user(client)
-                        exit(1)
                         break
+                        exit(1)
 
                 # SIGN UP
                 if (request == 'SIGN UP REQUEST'):
@@ -61,8 +61,6 @@ class DataServer:
                         password = client.recv(1024).decode('utf-8')
                         age = client.recv(1024).decode('utf-8')
                         phone = client.recv(1024).decode('utf-8')
-
-                        print(username, email, password, age, phone)
 
                         for file in os.listdir('DataBase'):
                             filename = file[5:-6]
@@ -92,8 +90,8 @@ class DataServer:
 
                     except Exception as e:
                         self.remove_user(client)
-                        exit(1)
                         break
+                        exit(1)
 
                 # SETTINGS
                 if (request == 'SETTINGS REQUEST'):
@@ -110,13 +108,13 @@ class DataServer:
                         client.send('Successfully changed settings!'.encode('utf-8'))
 
                         self.remove_user(client)
-                        exit(1)
                         break
+                        exit(1)
 
                     except Exception as e:
                         self.remove_user(client)
-                        exit(1)
                         break
+                        exit(1)
 
                 # DELETE ACCOUNT
                 if (request == 'DELETE ACCOUNT REQUEST'):
@@ -124,17 +122,14 @@ class DataServer:
                         os.remove('DataBase/user[{}].json'.format(self.users[self.clients.index(client)]["Username"]))
                         client.send('Account deleted successfully'.encode('utf-8'))
 
-                        index = self.clients.index(client)
-                        client.close()
-                        self.clients.remove(client)
-                        self.users.remove(self.users[index])
-                        exit(1)
+                        self.remove_user(client)
                         break
+                        exit(1)
 
                     except Exception as e:
                         self.remove_user(client)
-                        exit(1)
                         break
+                        exit(1)
 
                 # INFORMATION
                 if (request == 'INFO REQUEST'):
@@ -143,12 +138,14 @@ class DataServer:
                         client.send(str(obj).encode('utf-8'))
                     except Exception as e:
                         self.remove_user(client)
-                        exit(1)
                         break
+                        exit(1)
 
                 # BOOST
                 if (request == 'BOOST REQUEST'):
                     pass
+
+                break
 
             except Exception as e:
                 self.remove_user(client)
