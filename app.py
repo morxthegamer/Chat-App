@@ -314,3 +314,5 @@ def sign_up():
     sign_up_button.place(x=165, y=280)
 
     sign_up_wind.mainloop()
+
+client.close()

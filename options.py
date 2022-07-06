@@ -71,10 +71,14 @@ def delete_account(client):
     )
 
     def send_info():
-        client.send('DELETE ACCOUNT REQUEST'.encode('utf-8'))
-        done = client.recv(1024).decode('utf-8')
-        print(done)
-        exit(0)
+        try:
+          client.send('DELETE ACCOUNT REQUEST'.encode('utf-8'))
+          done = client.recv(1024).decode('utf-8')
+          print(done)
+          exit(0)
+        except Exception as e:
+          print(e)
+          exit(1)
 
     yes_button = Button(
         del_acc_wind,
@@ -158,21 +162,25 @@ def settings(client):
     )
 
     def send_info():
-        client.send('SETTINGS REQUEST'.encode('utf-8'))
-
-        if 'Age' in item.get():
-            client.send('Age'.encode('utf-8'))
-        elif 'Contact' in item.get():
-            client.send('Contact'.encode('utf-8'))
-        else:
-            client.send(item.get().encode('utf-8'))
-
-        time.sleep(1)
-        client.send(adjustment.get('1.0', 'end').encode('utf-8'))
-        done = client.recv(1024).decode('utf-8')
-        
-        if 'Success' in done:
-            s = SuccessWindow()
+        try:
+            client.send('SETTINGS REQUEST'.encode('utf-8'))
+    
+            if 'Age' in item.get():
+                client.send('Age'.encode('utf-8'))
+            elif 'Contact' in item.get():
+                client.send('Contact'.encode('utf-8'))
+            else:
+                client.send(item.get().encode('utf-8'))
+    
+            time.sleep(1)
+            client.send(adjustment.get('1.0', 'end').encode('utf-8'))
+            done = client.recv(1024).decode('utf-8')
+            
+            if 'Success' in done:
+                s = SuccessWindow()
+                exit(1)
+        except Exception as e:
+            print(e)
             exit(1)
 
     adj_button = Button(
